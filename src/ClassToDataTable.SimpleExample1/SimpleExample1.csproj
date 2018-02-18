@@ -84,6 +84,12 @@
   <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ClassToDataTable\ClassToDataTable.csproj">
+      <Project>{e776b859-6f2e-42b2-b1fe-ab7108af3a3a}</Project>
+      <Name>ClassToDataTable</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
