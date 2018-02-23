@@ -39,6 +39,7 @@ namespace ClassToDataTable.Tools
         /// <param name="tableSchema">The schema of the target table.</param>
         /// <param name="tableName">The name of the target table.</param>
         /// <param name="batchSize">The size of the batch you plan to send.</param>
-        void Initialize(SqlConnection destinationConnection, string tableSchema, string tableName, int batchSize);
+        /// <param name="bulkCopyTimeoutInSeconds">Number of seconds for the operation to complete before it times out.</param>
+        void Initialize(SqlConnection destinationConnection, string tableSchema, string tableName, int batchSize, int bulkCopyTimeoutInSeconds = 60);
     }
 }

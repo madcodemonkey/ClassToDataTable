@@ -35,11 +35,12 @@ namespace ClassToDataTable.Tools
         /// <param name="tableSchema">The schema of the target table.</param>
         /// <param name="tableName">The name of the target table.</param>
         /// <param name="batchSize">The size of the batch you plan to send.</param>
-        public void Initialize(SqlConnection destinationConnection, string tableSchema, string tableName, int batchSize)
+        public void Initialize(SqlConnection destinationConnection, string tableSchema, string tableName, int batchSize, int bulkCopyTimeoutInSeconds = 60)
         {
             _bulkCopy = new SqlBulkCopy(destinationConnection);
             _bulkCopy.DestinationTableName = $"[{tableSchema}].[{tableName}]";
             _bulkCopy.BatchSize = batchSize;
+            _bulkCopy.BulkCopyTimeout = bulkCopyTimeoutInSeconds; 
             foreach (DataColumn column in _converter.Table.Columns)
             {
                 _bulkCopy.ColumnMappings.Add(column.ColumnName, column.ColumnName);

@@ -6,7 +6,7 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("ClassToDataTable")]
-[assembly: AssemblyDescription("A simple .NET library for convertering class instances into datatables")]
+[assembly: AssemblyDescription("A simple .NET library for converting class instances into datatables")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("David Yates")]
 [assembly: AssemblyProduct("ClassToDataTable")]
@@ -32,5 +32,5 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can default the Build and Revision Numbers
 // by using the '*' as shown below:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion("1.0.0.1")]
+[assembly: AssemblyFileVersion("1.0.0.1")]

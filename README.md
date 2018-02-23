@@ -1,5 +1,7 @@
 # ClassToDataTable
 
+** BETA WARNING...This project is still undergoing changes **
+I should be done with most basic changes by Sunday (February 25th).
 
 
 Notes:
