@@ -23,7 +23,7 @@ namespace ClassToDataTable
             foreach (var column in _propertyMapList)
             {
                 object someValue = (column.Converter == null) ? column.PropInformation.GetValue(source) :
-                    column.Converter.GetValue(column.PropInformation, source);
+                    column.Converter.Convert(column.PropInformation, source);
 
                 // DataSet does not support System.Nullable<> so we use DBNull.Value to specify that we have a null.
                 // See https://forums.asp.net/t/1796259.aspx?how+to+solve+this+DataSet+does+not+support+System+Nullable+

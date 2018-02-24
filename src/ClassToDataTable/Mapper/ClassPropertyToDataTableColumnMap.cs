@@ -22,7 +22,7 @@ namespace ClassToDataTable.Mapper
         public int Order { get; set; }
 
         /// <summary>An alternate Type to use for this column when determining the DataTable column.</summary>
-        public Type AltType { get; set; }
+        public Type OutputType { get; set; }
 
         /// <summary>An optional converter in case you don't want the default converter based on the property's type.</summary>
         public IClassToDataTableTypeConverter Converter { get; set; }

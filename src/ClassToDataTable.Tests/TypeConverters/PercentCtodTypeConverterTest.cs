@@ -22,7 +22,7 @@ namespace ClassToDataTable.Tests
 
             // Act
             var classUnderTest = new PercentCtodTypeConverter();
-            decimal? somePercentage = classUnderTest.GetValue(decimalProperty, data) as decimal?;
+            decimal? somePercentage = classUnderTest.Convert(decimalProperty, data) as decimal?;
 
             // Assert
             throw new Exception("Should have encountered exception above because it cannot handle anything other than a string");            
@@ -41,7 +41,7 @@ namespace ClassToDataTable.Tests
 
             // Act
             var classUnderTest = new PercentCtodTypeConverter();
-            decimal? somePercentage = classUnderTest.GetValue(stringProperty, data) as decimal?;
+            decimal? somePercentage = classUnderTest.Convert(stringProperty, data) as decimal?;
 
             // Assert
             throw new Exception("Should have encountered exception above because the string is invalid!");
@@ -58,7 +58,7 @@ namespace ClassToDataTable.Tests
 
             // Act
             var classUnderTest = new PercentCtodTypeConverter();
-            decimal? somePercentage = classUnderTest.GetValue(stringProperty, data) as decimal?;
+            decimal? somePercentage = classUnderTest.Convert(stringProperty, data) as decimal?;
 
             // Assert
             Assert.IsNotNull(somePercentage);
@@ -76,7 +76,7 @@ namespace ClassToDataTable.Tests
 
             // Act
             var classUnderTest = new PercentCtodTypeConverter();
-            decimal? somePercentage = classUnderTest.GetValue(stringProperty, data) as decimal?;
+            decimal? somePercentage = classUnderTest.Convert(stringProperty, data) as decimal?;
 
             // Assert
             Assert.IsNotNull(somePercentage);

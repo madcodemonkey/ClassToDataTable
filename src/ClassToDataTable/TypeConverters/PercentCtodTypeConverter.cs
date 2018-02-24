@@ -5,15 +5,23 @@ namespace ClassToDataTable.TypeConverters
 {
     public class PercentCtodTypeConverter : IClassToDataTableTypeConverter
     {
-        public object GetValue(PropertyInfo propInformation, object sourceObject)
+        public bool CanConvert(Type inputType)
         {
-            object data = propInformation.GetValue(sourceObject);
+            return inputType == typeof(string);
+        }
+
+        public object Convert(PropertyInfo propInfo, object sourceObject)
+        {
+            object data = propInfo.GetValue(sourceObject);
             if (data == null)
                 return null;
-            if (data.GetType() != typeof(string))
-                throw new ArgumentException($"The {nameof(PercentCtodTypeConverter)} converter can only process strings.  The '{propInformation.Name}' field is is a '{data.GetType().ToString()}'");
             
             string stringData = data as string;
+            if (stringData == null)
+                throw new ArgumentException($"The {nameof(PercentCtodTypeConverter)} converter can only process strings.  " +
+                    $"The '{propInfo.Name}' field is is a '{propInfo.PropertyType.Name}'");
+
+
             int indexOfPercentSign = stringData.IndexOf("%");
             if (indexOfPercentSign != -1)
             {
@@ -26,6 +34,11 @@ namespace ClassToDataTable.TypeConverters
                 return result/100.0m;
 
             throw new ArgumentException($"The {nameof(PercentCtodTypeConverter)} converter cannot parse the following string: '{stringData}'");
+        }
+
+        public void Initialize(ClassToDataTableConverterAttribute attribute)
+        {
+            // No data needed from the attribute
         }
     }
 }

@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Data;
 using ClassToDataTable.Mapper;
-using ClassToDataTable.TypeConverters;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace ClassToDataTable.Tests
 {
     [TestClass]
-    public class ClassPropertyToDataTableColumnMapperTests
+    public class Mapper_ClassToDataTableAttribute_Tests
     {
         [TestMethod]
         public void CanMapPrimitiveTypesToDataTable()
@@ -34,6 +33,7 @@ namespace ClassToDataTable.Tests
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void WillNotMapArraysOrClasses()
         {
             // Arrange
@@ -71,83 +71,7 @@ namespace ClassToDataTable.Tests
             DataColumn column = theTable.Columns[columnName];
             Assert.IsNotNull(column, $"The '{columnName}' column was not found!");
             Assert.AreEqual(column.DataType, columnType, $"The '{columnName}' column is NOT a {columnType.Name}. It is a {column.DataType.Name}!");
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void AltTypeRequiresConverter()
-        {
-            // Arrange
-            var theTable = new DataTable();
-            var classUnderTest = new ClassPropertyToDataTableColumnMapper<PropertyAltTypeTest1>();
-
-            // Act
-            List<ClassPropertyToDataTableColumnMap> mapList = classUnderTest.Map(theTable);
-
-            // Assert
-            Assert.Fail("You must specify a converter if you are using AltType!");
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void AltTypeCannotBeAnArray()
-        {
-            // Arrange
-            var theTable = new DataTable();
-            var classUnderTest = new ClassPropertyToDataTableColumnMapper<PropertyAltTypeTest2>();
-
-            // Act
-            List<ClassPropertyToDataTableColumnMap> mapList = classUnderTest.Map(theTable);
-
-            // Assert
-            Assert.Fail("AltType Cannot Be An Array!");
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void AltTypeCannotBeAClass()
-        {
-            // Arrange
-            var theTable = new DataTable();
-            var classUnderTest = new ClassPropertyToDataTableColumnMapper<PropertyAltTypeTest3>();
-
-            // Act
-            List<ClassPropertyToDataTableColumnMap> mapList = classUnderTest.Map(theTable);
-
-            // Assert
-            Assert.Fail("AltType Cannot Be a class!");
-        }
-
-        [TestMethod]
-        [ExpectedException(typeof(ArgumentException))]
-        public void ConvertersMustImplement_IClassToDataTableConverter()
-        {
-            // Arrange
-            var theTable = new DataTable();
-            var classUnderTest = new ClassPropertyToDataTableColumnMapper<PropertyAltTypeTest4>();
-
-            // Act
-            List<ClassPropertyToDataTableColumnMap> mapList = classUnderTest.Map(theTable);
-
-            // Assert
-            Assert.Fail("Converter must implement IClassToDataTableConverter!");
-        }
-        
-        [TestMethod]
-        public void YouCanUseAnAltTypeWithValidConverter()
-        {
-            // Arrange
-            var theTable = new DataTable();
-            var classUnderTest = new ClassPropertyToDataTableColumnMapper<PropertyAltTypeTest5>();
-
-            // Act
-            List<ClassPropertyToDataTableColumnMap> mapList = classUnderTest.Map(theTable);
-
-            // Assert
-            Assert.AreEqual(2, theTable.Columns.Count, "Column count is wrong in the DataTable");
-            TestColumn(theTable, "SomeTestProperty", typeof(double));
-            TestColumn(theTable, "SomeIntProperty", typeof(int));
-        }
+        }   
     }
 
     internal class PropertyMapPrimitiveTest
@@ -178,38 +102,4 @@ namespace ClassToDataTable.Tests
         public PropertyMapPrimitiveTest SomeClassProperty { get; set; }
     }
 
-    internal class PropertyAltTypeTest1
-    {
-        [ClassToDataTable(AltType =typeof(string))]
-        public int SomeIntProperty { get; set; }
-        public string SomeStringProperty { get; set; }
-    }
-
-    internal class PropertyAltTypeTest2
-    {
-        [ClassToDataTable(AltType = typeof(int[]))]
-        public int SomeIntProperty { get; set; }
-        public string SomeStringProperty { get; set; }
-    }
-
-    internal class PropertyAltTypeTest3
-    {
-        [ClassToDataTable(AltType = typeof(PropertyAltTypeTest1))]
-        public int SomeIntProperty { get; set; }
-        public string SomeStringProperty { get; set; }
-    }
-
-    internal class PropertyAltTypeTest4
-    {
-        [ClassToDataTable(AltType = typeof(int), TypeConverter=typeof(PropertyAltTypeTest1))]
-        public int SomeIntProperty { get; set; }
-        public string SomeStringProperty { get; set; }
-    }
-
-    internal class PropertyAltTypeTest5
-    {
-        [ClassToDataTable(AltType = typeof(double), TypeConverter = typeof(PercentCtodTypeConverter))]
-        public string SomeTestProperty { get; set; }
-        public int SomeIntProperty { get; set; }
-    }
 }

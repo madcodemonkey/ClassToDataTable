@@ -66,8 +66,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Mapper\Mapper_ClassToDataTableAttribute_Tests.cs" />
     <Compile Include="TypeConverters\PercentCtodTypeConverterTest.cs" />
-    <Compile Include="Mapper\ClassPropertyToDataTableColumnMapperTests.cs" />
+    <Compile Include="Mapper\Mapper_ClassToDataTableConverterAttribute_Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
