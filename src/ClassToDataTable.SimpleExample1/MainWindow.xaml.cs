@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Threading;
+using ClassToDataTable;
 
 namespace SimpleExample1
 {
@@ -18,7 +19,26 @@ namespace SimpleExample1
         {
             try
             {
-                // TODO: Put your work here.
+                var service = new ClassToDataTableService<Person>();
+
+                Random rand = new Random(DateTime.Now.Second);
+                int numberToCreate = rand.Next(10, 100);
+
+                for (int i = 0; i < numberToCreate; i++)
+                {
+                    var newPerson = new Person()
+                    {
+                        FirstName = $"First{rand.Next(1, 5000)}",
+                        LastName = $"Last{rand.Next(1, 5000)}",
+                        Age = rand.Next(5, 80),
+                        PercentageBodyFat = rand.Next(1, 20) / 1.2m,
+                        AvgHeartRate = rand.Next(60, 80) / 1.1
+                    };
+
+                    service.AddRow(newPerson);
+                }
+
+                // TODO: Do something with the table:  service.Table
             }
             catch (Exception ex)
             {

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 namespace ClassToDataTable.Tools
 {
+    /// <summary>Uses SqlBulkCopy to copy data to a server.</summary>
+    /// <typeparam name="T"></typeparam>
     public class BulkCopyHelper<T> : IBulkCopyHelper
     {
         private ClassToDataTableService<T> _converter = new ClassToDataTableService<T>();
@@ -35,8 +37,10 @@ namespace ClassToDataTable.Tools
         /// <param name="tableSchema">The schema of the target table.</param>
         /// <param name="tableName">The name of the target table.</param>
         /// <param name="batchSize">The size of the batch you plan to send.</param>
+        /// <remarks>I'm initializing things here as opposed to the constructor so that it is easier to setup the helper when using reflection 
+        /// to dynamically create a generic type.</remarks>
         public void Initialize(SqlConnection destinationConnection, string tableSchema, string tableName, int batchSize, int bulkCopyTimeoutInSeconds = 60)
-        {
+        {            
             _bulkCopy = new SqlBulkCopy(destinationConnection);
             _bulkCopy.DestinationTableName = $"[{tableSchema}].[{tableName}]";
             _bulkCopy.BatchSize = batchSize;

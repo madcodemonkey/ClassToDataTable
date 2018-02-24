@@ -1,9 +1,14 @@
 ﻿using System;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.IO;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Threading;
+using ClassToDataTable.Tools;
 
 namespace AdvExample1
 {
@@ -18,11 +23,90 @@ namespace AdvExample1
         {
             try
             {
-                // TODO: Put your work here.
+            
             }
             catch (Exception ex)
             {
                 LogError(ex);
+            }
+        }
+
+
+        protected CancellationTokenSource _DbTablesToFilesCancelToken = null;
+        private async void DbTablesToFilesButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (_DbTablesToFilesCancelToken != null)
+                {
+                    _DbTablesToFilesCancelToken.Cancel();
+                    return;  
+                }
+
+                var saveDirectory = FileAndFolderHelper.PickDirectory();
+                if (saveDirectory.Success == false)
+                    return;
+
+                DbTablesToFilesButton.Content = "Stop making C# classes from my tables";
+                _DbTablesToFilesCancelToken = new CancellationTokenSource();
+
+                await Task.Run(() => { DbTablesToFiles(saveDirectory.Value); }, _DbTablesToFilesCancelToken.Token)
+                    .ContinueWith((t) =>
+                    {
+                        if (t.IsFaulted)
+                        {
+                            LogError(t.Exception);                           
+                        }
+                        else
+                        {
+                            if (_DbTablesToFilesCancelToken.IsCancellationRequested)
+                                LogMessage("Cancelled Requested.");
+                            else LogMessage("Finished");
+                        }
+
+                        DbTablesToFilesButton.Content = "Start making C# classes from my tables";
+                        _DbTablesToFilesCancelToken = null;
+
+                    }, TaskScheduler.FromCurrentSynchronizationContext());                
+            }
+            catch (Exception ex)
+            {
+                LogError(ex);
+            }
+        }
+
+        private void DbTablesToFiles(string directoryName)
+        {            
+            string myConnectionString = ConfigurationManager.ConnectionStrings["myDbConnectionString"].ConnectionString;
+            if (string.IsNullOrWhiteSpace(myConnectionString))
+                throw new ArgumentException("Please put a connection string in the 'myDbConnectionString' key in the app.config file.");
+
+            LogMessage("Press the button again to stop creating files.");
+
+            using (SqlConnection destinationConnection = new SqlConnection(myConnectionString))
+            {
+                destinationConnection.Open();
+                var newHelper = new DatabaseTableHelper(destinationConnection);
+                foreach (DatabaseTable table in newHelper.LoadTableNames())
+                {
+                    if (_DbTablesToFilesCancelToken.IsCancellationRequested)
+                        break;
+
+                    // Load table fields
+                    var tableNameWithSchema = table.ToString();
+                    var tableFields = newHelper.LoadFields(tableNameWithSchema);
+
+                    // Create class in memory
+                    string someClass = newHelper.ConvertFieldsToClass(tableFields, table.TableName, "SampleNamespace");
+
+                    // Save class to file system
+                    string fileName = Path.Combine(directoryName, $"{table.TableName}.cs");
+                    using (FileStream fs = File.Create(fileName))
+                    using (StreamWriter sw = new StreamWriter(fs))
+                    {
+                        sw.WriteLine(someClass);
+                    }
+                }
             }
         }
 
@@ -88,5 +172,6 @@ namespace AdvExample1
             }
         }
         #endregion
+
     }
 }
