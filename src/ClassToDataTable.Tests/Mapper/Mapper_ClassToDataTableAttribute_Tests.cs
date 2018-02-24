@@ -10,7 +10,7 @@ namespace ClassToDataTable.Tests
     public class Mapper_ClassToDataTableAttribute_Tests
     {
         [TestMethod]
-        public void CanMapPrimitiveTypesToDataTable()
+        public void PropertyTest_CanMapPrimitiveTypesToDataTable_DataTableHasNonNullableVersionOfPrimitiveTypes()
         {
             // Arrange
             var theTable = new DataTable();
@@ -34,7 +34,7 @@ namespace ClassToDataTable.Tests
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void WillNotMapArraysOrClasses()
+        public void PropertyTest_ArraysMustBeMarkedWithIgnore_ResultsInAnException()
         {
             // Arrange
             var theTable = new DataTable();
@@ -44,12 +44,27 @@ namespace ClassToDataTable.Tests
             List<ClassPropertyToDataTableColumnMap> mapList = classUnderTest.Map(theTable);
 
             // Assert
-            Assert.AreEqual(1, theTable.Columns.Count, "Column count is wrong in the DataTable");
-            TestColumn(theTable, "SomeIntProperty", typeof(int));
+            Assert.Fail($"You must mark properites with array types with the {nameof(ClassToDataTableAttribute)} Ignore property or you get an exception.");
         }
 
         [TestMethod]
-        public void CanIgnoreClassProperty()
+        [ExpectedException(typeof(ArgumentException))]
+        public void PropertyTest_ClassesMustBeMarkedWithIgnore_ResultsInAnException()
+        {
+            // Arrange
+            var theTable = new DataTable();
+            var classUnderTest = new ClassPropertyToDataTableColumnMapper<PropertyMapClassTest>();
+
+            // Act
+            List<ClassPropertyToDataTableColumnMap> mapList = classUnderTest.Map(theTable);
+
+            // Assert
+            Assert.Fail($"You must mark properties with class types with the {nameof(ClassToDataTableAttribute)} Ignore property or you get an exception.");
+        }
+
+
+        [TestMethod]
+        public void PropertyTest_CanIgnoreClassProperty_DataTableDoesNotContainTheIgnoredField()
         {
             // Arrange
             var theTable = new DataTable();
@@ -99,7 +114,11 @@ namespace ClassToDataTable.Tests
     {
         public int SomeIntProperty { get; set; }
         public int[] SomeIntArrayProperty { get; set; }
-        public PropertyMapPrimitiveTest SomeClassProperty { get; set; }
     }
 
+    internal class PropertyMapClassTest
+    {
+        public int SomeIntProperty { get; set; }
+        public PropertyMapPrimitiveTest SomeClassProperty { get; set; }
+    }
 }

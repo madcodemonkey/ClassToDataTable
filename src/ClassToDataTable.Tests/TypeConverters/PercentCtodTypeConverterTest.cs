@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Reflection;
 using ClassToDataTable.Shared;
 using ClassToDataTable.TypeConverters;
@@ -12,7 +11,7 @@ namespace ClassToDataTable.Tests
     {
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void CannotHandleNonStringFields()
+        public void CannotHandleNonStringFields_ResultsInAnException()
         {
             // Arrange
             PropertyInfo decimalProperty = ReflectionHelper.FindPropertyInfoByName<PercentConverterTest>("SomeDecimalProperty");
@@ -25,13 +24,13 @@ namespace ClassToDataTable.Tests
             decimal? somePercentage = classUnderTest.Convert(decimalProperty, data) as decimal?;
 
             // Assert
-            throw new Exception("Should have encountered exception above because it cannot handle anything other than a string");            
+            Assert.Fail("Should have encountered exception above because it cannot handle anything other than a string!");
         }
 
 
         [TestMethod]
         [ExpectedException(typeof(ArgumentException))]
-        public void CannotCovertJunkStrings()
+        public void CannotCovertJunkStrings_ResultsInAnException()
         {
             // Arrange
             PropertyInfo stringProperty = ReflectionHelper.FindPropertyInfoByName<PercentConverterTest>("SomeStringProperty");
@@ -44,11 +43,11 @@ namespace ClassToDataTable.Tests
             decimal? somePercentage = classUnderTest.Convert(stringProperty, data) as decimal?;
 
             // Assert
-            throw new Exception("Should have encountered exception above because the string is invalid!");
+            Assert.Fail("Should have encountered exception above because the string is invalid!");
         }
 
         [TestMethod]
-        public void CanCovertStringWithPercentageSign()
+        public void CanCovertStringWithPercentageSign_StringConvertedToDecimal()
         {
             // Arrange
             PropertyInfo stringProperty = ReflectionHelper.FindPropertyInfoByName<PercentConverterTest>("SomeStringProperty");
@@ -66,7 +65,7 @@ namespace ClassToDataTable.Tests
         }
 
         [TestMethod]
-        public void CanCovertStringWithoutPercentageSign()
+        public void CanCovertStringWithoutPercentageSign_StringConvertedToDecimal()
         {
             // Arrange
             PropertyInfo stringProperty = ReflectionHelper.FindPropertyInfoByName<PercentConverterTest>("SomeStringProperty");

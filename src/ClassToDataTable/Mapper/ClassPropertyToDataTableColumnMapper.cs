@@ -69,7 +69,7 @@ namespace ClassToDataTable.Mapper
                 if (newMap.Converter == null && _validDataTableDataTypes.IsValidType(info.PropertyType) == false)
                 {
                     throw new ArgumentException($"The {newMap.PropInformation.Name} property has a type of  {info.PropertyType.Name},  " +
-                        $"which is NOT supported by DataTable.  Please mark the column as Ignored using the " +
+                        $"which is NOT supported by DataTable.  Please mark the column as Ignore using the " +
                         $"{nameof(ClassToDataTableAttribute)} attribute.  Please refer to this link for more information about " +
                         "valid DataTable types: https://msdn.microsoft.com/en-us/library/system.data.datacolumn.datatype(v=vs.110).aspx");
 
