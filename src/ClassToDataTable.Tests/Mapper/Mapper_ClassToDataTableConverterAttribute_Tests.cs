@@ -17,7 +17,7 @@ namespace ClassToDataTable.Tests
         {
             // Arrange
             var theTable = new DataTable();
-            var classUnderTest = new ClassPropertyToDataTableColumnMapper<PropertyAltTypeTest2>();
+            var classUnderTest = new ClassPropertyToDataTableColumnMapper<PropertyOutputTest1>();
 
             // Act
             List<ClassPropertyToDataTableColumnMap> mapList = classUnderTest.Map(theTable);
@@ -32,7 +32,7 @@ namespace ClassToDataTable.Tests
         {
             // Arrange
             var theTable = new DataTable();
-            var classUnderTest = new ClassPropertyToDataTableColumnMapper<PropertyAltTypeTest3>();
+            var classUnderTest = new ClassPropertyToDataTableColumnMapper<PropertyOutputTest2>();
 
             // Act
             List<ClassPropertyToDataTableColumnMap> mapList = classUnderTest.Map(theTable);
@@ -84,7 +84,7 @@ namespace ClassToDataTable.Tests
 
             // Assert
             Assert.AreEqual(2, theTable.Columns.Count, "Column count is wrong in the DataTable");
-            TestColumn(theTable, "SomeTestProperty", typeof(double));
+            TestColumn(theTable, "SomeTestProperty", typeof(decimal));
             TestColumn(theTable, "SomeIntProperty", typeof(int));
         }
 
@@ -100,7 +100,7 @@ namespace ClassToDataTable.Tests
 
             // Assert
             Assert.AreEqual(2, theTable.Columns.Count, "Column count is wrong in the DataTable");
-            TestColumn(theTable, "SomeTestProperty", typeof(double));
+            TestColumn(theTable, "SomeTestProperty", typeof(decimal));
             TestColumn(theTable, "SomeIntProperty", typeof(int));
         }
 
@@ -114,16 +114,37 @@ namespace ClassToDataTable.Tests
 
     }
 
-    internal class MapperTestConverter : IClassToDataTableTypeConverter
+    internal class MapperTestConverterWithArrayOutput : IClassToDataTableTypeConverter
     {
+        public Type OutputType => typeof(int[]);
+
         public bool CanConvert(Type inputType)
         {
-            return typeof(string) == inputType || typeof(int) == inputType || typeof(int[]) == inputType;
+            return typeof(string) == inputType;
         }
 
         public object Convert(PropertyInfo propInfo, object sourceObject)
         {
-            return 0;
+            return new int[] { 0, 1, 2 };
+        }
+
+        public void Initialize(ClassToDataTableConverterAttribute attribute)
+        {
+        }
+    }
+
+    internal class MapperTestConverterWithClassOutput : IClassToDataTableTypeConverter
+    {
+        public Type OutputType => typeof(NotRealConverter);
+
+        public bool CanConvert(Type inputType)
+        {
+            return typeof(string) == inputType;
+        }
+
+        public object Convert(PropertyInfo propInfo, object sourceObject)
+        {
+            return new NotRealConverter();
         }
 
         public void Initialize(ClassToDataTableConverterAttribute attribute)
@@ -136,42 +157,38 @@ namespace ClassToDataTable.Tests
 
     }
 
-    internal class PropertyAltTypeTest1
+  
+
+    internal class PropertyOutputTest1
     {
-        [ClassToDataTableConverter(typeof(MapperTestConverter), typeof(int))]
         public int SomeIntProperty { get; set; }
+
+        [ClassToDataTableConverter(typeof(MapperTestConverterWithArrayOutput))]
         public string SomeStringProperty { get; set; }
     }
 
-    internal class PropertyAltTypeTest2
+    internal class PropertyOutputTest2
     {
-        [ClassToDataTableConverter(typeof(MapperTestConverter), typeof(int[]))]
-        public int SomeIntProperty { get; set; }
-        public string SomeStringProperty { get; set; }
-    }
-
-    internal class PropertyAltTypeTest3
-    {
-        [ClassToDataTableConverter(typeof(MapperTestConverter), typeof(PropertyAltTypeTest1))]
+        [ClassToDataTableConverter(typeof(MapperTestConverterWithClassOutput))]
         public int SomeIntProperty { get; set; }
         public string SomeStringProperty { get; set; }
     }
 
     internal class PropertyInterfaceTest1
     {
-        [ClassToDataTableConverter(typeof(NotRealConverter), typeof(int))]
+        [ClassToDataTableConverter(typeof(NotRealConverter))]
         public int SomeIntProperty { get; set; }
         public string SomeStringProperty { get; set; }
     }
 
     internal class PercentageTest1
     {
-        [ClassToDataTableConverter(typeof(PercentCtodTypeConverter), typeof(double))]
+        [ClassToDataTableConverter(typeof(PercentCtodTypeConverter))]
         public string SomeTestProperty { get; set; }
         public int SomeIntProperty { get; set; }
     }
 
-    [ClassToDataTableConverter(typeof(PercentCtodTypeConverter), typeof(double))]
+    [ClassToDataTableConverter(typeof(PercentCtodTypeConverter))]
     internal class PercentageTest2
     {
         public string SomeTestProperty { get; set; }
@@ -179,7 +196,7 @@ namespace ClassToDataTable.Tests
     }
 
 
-    [ClassToDataTableConverter(typeof(PercentCtodTypeConverter), typeof(double), TargetPropertyType =typeof(string))]
+    [ClassToDataTableConverter(typeof(PercentCtodTypeConverter), TargetPropertyType =typeof(string))]
     internal class PercentageTest3
     {
         public string SomeTestProperty { get; set; }

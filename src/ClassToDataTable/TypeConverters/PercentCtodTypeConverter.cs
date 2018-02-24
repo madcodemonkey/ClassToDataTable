@@ -5,6 +5,8 @@ namespace ClassToDataTable.TypeConverters
 {
     public class PercentCtodTypeConverter : IClassToDataTableTypeConverter
     {
+        public Type OutputType => typeof(decimal);
+
         public bool CanConvert(Type inputType)
         {
             return inputType == typeof(string);
