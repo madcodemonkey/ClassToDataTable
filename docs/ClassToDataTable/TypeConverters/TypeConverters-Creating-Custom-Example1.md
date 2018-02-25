@@ -1,4 +1,8 @@
-﻿using System;
+ # Creating a DataTable: Creating your own Custom type converter EXAMPLE 1
+
+Here is the custom type converter included with this project that does NOT have a custom attribute:
+```c#
+using System;
 using System.Reflection;
 
 namespace ClassToDataTable.TypeConverters
@@ -47,3 +51,28 @@ namespace ClassToDataTable.TypeConverters
         }
     }
 }
+```
+
+Notes:
+- In the CanConvert method, we tell the system what this converter can handle so that people don't use it on the wrong property.
+- In the Initialize method, nothing is going on since it doesn't need anything from the attribute.
+- In the Convert method, it strips out the % sign and attempts to parse the string as a decimal and then divide by 100.
+
+Usage:
+```c#
+public class PercentageTest1
+{
+    [ClassToDataTableConverter(typeof(PercentCtodTypeConverter))]
+    public string SomeTestProperty { get; set; }
+    public int SomeIntProperty { get; set; }
+}
+
+OR
+
+[ClassToDataTableConverter(typeof(PercentCtodTypeConverter), TargetPropertyType =typeof(string))]
+public class PercentageTest3
+{
+    public string SomeTestProperty { get; set; }
+    public int SomeIntProperty { get; set; }
+}
+```

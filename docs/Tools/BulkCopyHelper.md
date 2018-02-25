@@ -31,5 +31,5 @@ using (IBulkCopyHelper copyHelper = new BulkCopyHelper<Person>())
 ```     
 
 Warnings
-- SQL Bulk Copy is VERY picky about field names.  They must not only match in type, but also in CASE.  Yes, it is case sensitive.  
+- SQL Bulk Copy is VERY picky about field names.  They must not only match in type, but also in CASE.  **Yes, it is case sensitive.** 
 

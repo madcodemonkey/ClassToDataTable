@@ -1,11 +1,7 @@
 # ClassToDataTable
 
-** BETA WARNING...This project is still undergoing changes **
-I should be done with most basic changes by Sunday (February 25th).
+A simple .NET library for converting class instances into a DataTable.
 
-
-Notes:
-- Only reads properties and NOT fields
-- It will ignore properties that are arrays or classes
-
-- For some reason SqlBulkCopy is case sentsitive
+Follow these links to learn more about a specific topic:
+- [Creating a DataTable](./Docs/ClassToDataTable/ClassToDataTable-Main.md) - basic usage of the ClassToDataTableService service.
+- [Tools](./Docs/Tools/Tools-Main.md) - Tools included with the project.

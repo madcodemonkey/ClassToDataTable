@@ -1,5 +1,7 @@
-# ClassToDataTableService - Basic usage
+# ClassToDataTableService - EXAMPLE 1
 
+ In this simple example to show basic usage
+ 
 ```c#
 var service = new ClassToDataTableService<Person>();
 
