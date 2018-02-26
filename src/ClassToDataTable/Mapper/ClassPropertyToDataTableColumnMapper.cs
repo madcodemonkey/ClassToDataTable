@@ -10,13 +10,16 @@ namespace ClassToDataTable.Mapper
 {
     public class ClassPropertyToDataTableColumnMapper<T>
     {
-        public List<ClassPropertyToDataTableColumnMap> Map(DataTable table)
+        public List<ClassPropertyToDataTableColumnMap> Map(DataTable table, ClassToDataTableConfiguration configuration)
         {
+            _configuration = configuration;
             var mapList = CreateColumnMaps();
             CreateDataTableColumns(mapList, table);
             return mapList;
         }
 
+        private ClassToDataTableConfiguration _configuration;
+        private Type _theClassType = typeof(T);
         private ValidDataTableDataTypes _validDataTableDataTypes = new ValidDataTableDataTypes();
 
         /// <summary>Adds one converter to the column map.</summary>
@@ -25,21 +28,23 @@ namespace ClassToDataTable.Mapper
         private void AddOneConverterToTheMap(ClassPropertyToDataTableColumnMap newMap, ClassToDataTableConverterAttribute oneCustomAttribute)
         {
             newMap.Converter = oneCustomAttribute.TypeConverter.HelpCreateAndCastToInterface<IClassToDataTableTypeConverter>(            
-                $"The '{newMap.PropInformation.Name}' property specified a converter, but there is a problem!");
+                $"The '{newMap.PropInformation.Name}' property on the {_theClassType.Name} class specified a converter, but there is a problem!");
                         
             newMap.OutputType = newMap.Converter.OutputType;
 
             if (_validDataTableDataTypes.IsValidType(newMap.OutputType) == false)
             {
-                throw new ArgumentException($"The {newMap.PropInformation.Name} property is using a converter with an output type " +
-                    $"of  {newMap.OutputType.Name}, which is NOT supported by DataTable.  Please refer to this link for more " +
-                    $"information about valid DataTable types: https://msdn.microsoft.com/en-us/library/system.data.datacolumn.datatype(v=vs.110).aspx");
+                throw new ArgumentException($"The {newMap.PropInformation.Name} property on the {_theClassType.Name} class is using a converter " +
+                    $"with an output type of  {newMap.OutputType.Name}, which is NOT supported by DataTable.  Please refer to this link " +
+                    $"for more information about valid DataTable types: " +
+                    $"https://msdn.microsoft.com/en-us/library/system.data.datacolumn.datatype(v=vs.110).aspx");
             }
 
             if (newMap.Converter.CanConvert(newMap.PropInformation.PropertyType) == false)
             {
-                throw new ArgumentException($"The {newMap.PropInformation.Name} property has a {nameof(ClassToDataTableConverterAttribute)},  " +
-                    $"but it cannot convert a data of the {newMap.PropInformation.PropertyType.Name} type!");
+                throw new ArgumentException($"The {newMap.PropInformation.Name} property on the {_theClassType.Name} class " +
+                    $"has a {nameof(ClassToDataTableConverterAttribute)}, but it cannot convert a data of the " +
+                    $"{newMap.PropInformation.PropertyType.Name} type!");
             }
 
             newMap.Converter.Initialize(oneCustomAttribute);
@@ -48,8 +53,8 @@ namespace ClassToDataTable.Mapper
         /// <summary>Creates the property maps</summary>
         private List<ClassPropertyToDataTableColumnMap> CreateColumnMaps()
         {
-            var mapList = new List<ClassPropertyToDataTableColumnMap>();
-            foreach (PropertyInfo info in typeof(T).GetProperties())
+            var mapList = new List<ClassPropertyToDataTableColumnMap>();            
+            foreach (PropertyInfo info in _theClassType.GetProperties())
             {
                 var newMap = new ClassPropertyToDataTableColumnMap()
                 {
@@ -68,11 +73,16 @@ namespace ClassToDataTable.Mapper
                 // If no converter was specified, ignore properties that the DataTable cannot convert!
                 if (newMap.Converter == null && _validDataTableDataTypes.IsValidType(info.PropertyType) == false)
                 {
-                    throw new ArgumentException($"The {newMap.PropInformation.Name} property has a type of  {info.PropertyType.Name},  " +
-                        $"which is NOT supported by DataTable.  Please mark the column as Ignore using the " +
-                        $"{nameof(ClassToDataTableAttribute)} attribute.  Please refer to this link for more information about " +
-                        "valid DataTable types: https://msdn.microsoft.com/en-us/library/system.data.datacolumn.datatype(v=vs.110).aspx");
+                    // Has the user choosen to ignore invalid types on the class?  If so, just don't create the map;
+                    // otherwise, throw the exception that follows.
+                    if (_configuration.IgnoreInvalidTypes)
+                        continue;
 
+                    throw new ArgumentException($"The {newMap.PropInformation.Name} property on the {_theClassType.Name} class " +
+                        $"has a type of {info.PropertyType.Name}, which is NOT supported by DataTable.  Please ignore the " +
+                        $"column using the {nameof(ClassToDataTableAttribute)} attribute's Ignore setting OR set the service " +
+                        $"Configuration's IgnoreInvalidTypes property to true.  Please refer to this link for more information " +
+                        $"about valid DataTable types: https://msdn.microsoft.com/en-us/library/system.data.datacolumn.datatype(v=vs.110).aspx");
                 }
 
                 mapList.Add(newMap);
@@ -111,21 +121,20 @@ namespace ClassToDataTable.Mapper
 
         /// <summary>Finds all the ClassToDataTableConverterAttribute that are decorating the class.</summary>
         private void FindConvertersOnTheClass(List<ClassPropertyToDataTableColumnMap> mapList)
-        {
-            Type theClassType = typeof(T);
+        {        
             // Find pre-converters attributes on the class
-            var attributeList = theClassType.HelpFindAllClassAttributes<ClassToDataTableConverterAttribute>();
+            var attributeList = _theClassType.HelpFindAllClassAttributes<ClassToDataTableConverterAttribute>();
 
             foreach (var oneAttribute in attributeList)
             {
                 if (oneAttribute.TargetPropertyType == null)
                 {
-                    throw new ArgumentException($"A {nameof(ClassToDataTableConverterAttribute)} was placed on the {theClassType.Name} " +
+                    throw new ArgumentException($"A {nameof(ClassToDataTableConverterAttribute)} was placed on the {_theClassType.Name} " +
                         $"class, but a {nameof(ClassToDataTableConverterAttribute.TargetPropertyType)} was NOT specified.");
                 }
 
                 var oneTypeConverter = oneAttribute.TypeConverter.HelpCreateAndCastToInterface<IClassToDataTableTypeConverter>(
-                    $"The {typeof(T).Name} class has specified a {nameof(ClassToDataTableConverterAttribute)}, but there is a problem!");
+                    $"The {_theClassType.Name} class has specified a {nameof(ClassToDataTableConverterAttribute)}, but there is a problem!");
 
                 foreach (var map in mapList)
                 {
@@ -148,7 +157,8 @@ namespace ClassToDataTable.Mapper
             }
             else if (attributeList.Count > 1)
             {
-                throw new ArgumentException($"The {newMap.PropInformation.Name} property specified nore than one {nameof(ClassToDataTableConverterAttribute)} " +
+                throw new ArgumentException($"The {newMap.PropInformation.Name} property on the {_theClassType.Name} class " +
+                    $"specified nore than one {nameof(ClassToDataTableConverterAttribute)} " +
                     $"attribute and is allowed per property on a class.  Please remove one of the attributes!");
             }
         }

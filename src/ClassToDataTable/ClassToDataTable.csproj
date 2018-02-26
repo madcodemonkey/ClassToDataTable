@@ -48,6 +48,7 @@
     <Compile Include="Attributes\ClassToDataTableConverterAttribute.cs" />
     <Compile Include="Mapper\ClassPropertyToDataTableColumnMap.cs" />
     <Compile Include="Mapper\ValidDataTableDataTypes.cs" />
+    <Compile Include="Configuration\ClassToDataTableConfiguration.cs" />
     <Compile Include="Shared\Reflection\ReflectionCreateExtensions.cs" />
     <Compile Include="Tools\BulkCopyHelper.cs" />
     <Compile Include="Tools\DatabaseTable.cs" />
@@ -62,5 +63,6 @@
     <Compile Include="Shared\Reflection\ReflectionAttributeExtensions.cs" />
     <Compile Include="Shared\Reflection\ReflectionHelper.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

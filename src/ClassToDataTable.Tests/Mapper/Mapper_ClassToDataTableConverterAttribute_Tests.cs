@@ -17,13 +17,43 @@ namespace ClassToDataTable.Tests
         {
             // Arrange
             var theTable = new DataTable();
-            var classUnderTest = new ClassPropertyToDataTableColumnMapper<PropertyOutputTest1>();
+            var classUnderTest = new ClassPropertyToDataTableColumnMapper<ClassPropertyToDataTableColumnMapperTestData1>();
 
             // Act
-            List<ClassPropertyToDataTableColumnMap> mapList = classUnderTest.Map(theTable);
+            List<ClassPropertyToDataTableColumnMap> mapList = classUnderTest.Map(theTable, new ClassToDataTableConfiguration());
 
             // Assert
             Assert.Fail("OutputType Cannot Be An Array!");
+        }
+
+        [TestMethod]        
+        public void Map_ClassCanHaveArrayPropertyTypeWithoutIgnoreIfConfiguratoinSetttingIsUsed_NoException()
+        {
+            // Arrange
+            var theTable = new DataTable();
+            var classUnderTest = new ClassPropertyToDataTableColumnMapper<ClassPropertyToDataTableColumnMapperTestData7>();
+
+            // Act
+            List<ClassPropertyToDataTableColumnMap> mapList = classUnderTest.Map(theTable, new ClassToDataTableConfiguration() { IgnoreInvalidTypes = true } );
+
+            // Assert
+            Assert.AreEqual(1, mapList.Count);
+            TestDataType(theTable, "SomeTestProperty", typeof(string));
+        }
+
+        [TestMethod]
+        public void Map_ClassCanHaveClassPropertyTypeWithoutIgnoreIfConfiguratoinSetttingIsUsed_NoException()
+        {
+            // Arrange
+            var theTable = new DataTable();
+            var classUnderTest = new ClassPropertyToDataTableColumnMapper<ClassPropertyToDataTableColumnMapperTestData8>();
+
+            // Act
+            List<ClassPropertyToDataTableColumnMap> mapList = classUnderTest.Map(theTable, new ClassToDataTableConfiguration() { IgnoreInvalidTypes = true });
+
+            // Assert
+            Assert.AreEqual(1, mapList.Count);
+            TestDataType(theTable, "SomeTestProperty", typeof(string));
         }
 
         [TestMethod]
@@ -32,10 +62,10 @@ namespace ClassToDataTable.Tests
         {
             // Arrange
             var theTable = new DataTable();
-            var classUnderTest = new ClassPropertyToDataTableColumnMapper<PropertyOutputTest2>();
+            var classUnderTest = new ClassPropertyToDataTableColumnMapper<ClassPropertyToDataTableColumnMapperTestData2>();
 
             // Act
-            List<ClassPropertyToDataTableColumnMap> mapList = classUnderTest.Map(theTable);
+            List<ClassPropertyToDataTableColumnMap> mapList = classUnderTest.Map(theTable, new ClassToDataTableConfiguration());
 
             // Assert
             Assert.Fail("OutputType Cannot Be a class!");
@@ -47,10 +77,10 @@ namespace ClassToDataTable.Tests
         {
             // Arrange
             var theTable = new DataTable();
-            var classUnderTest = new ClassPropertyToDataTableColumnMapper<PropertyInterfaceTest1>();
+            var classUnderTest = new ClassPropertyToDataTableColumnMapper<ClassPropertyToDataTableColumnMapperTestData3>();
 
             // Act
-            List<ClassPropertyToDataTableColumnMap> mapList = classUnderTest.Map(theTable);
+            List<ClassPropertyToDataTableColumnMap> mapList = classUnderTest.Map(theTable, new ClassToDataTableConfiguration());
 
             // Assert
             Assert.Fail("Converter must implement IClassToDataTableConverter!");
@@ -62,10 +92,10 @@ namespace ClassToDataTable.Tests
         {
             // Arrange
             var theTable = new DataTable();
-            var classUnderTest = new ClassPropertyToDataTableColumnMapper<PercentageTest2>();
+            var classUnderTest = new ClassPropertyToDataTableColumnMapper<ClassPropertyToDataTableColumnMapperTestData5>();
 
             // Act
-            List<ClassPropertyToDataTableColumnMap> mapList = classUnderTest.Map(theTable);
+            List<ClassPropertyToDataTableColumnMap> mapList = classUnderTest.Map(theTable, new ClassToDataTableConfiguration());
 
             // Assert
             Assert.Fail("You should get an error for not specifying a TargetPropertyType!");
@@ -77,15 +107,15 @@ namespace ClassToDataTable.Tests
         {
             // Arrange
             var theTable = new DataTable();
-            var classUnderTest = new ClassPropertyToDataTableColumnMapper<PercentageTest1>();
+            var classUnderTest = new ClassPropertyToDataTableColumnMapper<ClassPropertyToDataTableColumnMapperTestData4>();
 
             // Act
-            List<ClassPropertyToDataTableColumnMap> mapList = classUnderTest.Map(theTable);
+            List<ClassPropertyToDataTableColumnMap> mapList = classUnderTest.Map(theTable, new ClassToDataTableConfiguration());
 
             // Assert
             Assert.AreEqual(2, theTable.Columns.Count, "Column count is wrong in the DataTable");
-            TestColumn(theTable, "SomeTestProperty", typeof(decimal));
-            TestColumn(theTable, "SomeIntProperty", typeof(int));
+            TestDataType(theTable, "SomeTestProperty", typeof(decimal));
+            TestDataType(theTable, "SomeIntProperty", typeof(int));
         }
 
         [TestMethod]
@@ -93,19 +123,19 @@ namespace ClassToDataTable.Tests
         {
             // Arrange
             var theTable = new DataTable();
-            var classUnderTest = new ClassPropertyToDataTableColumnMapper<PercentageTest3>();
+            var classUnderTest = new ClassPropertyToDataTableColumnMapper<ClassPropertyToDataTableColumnMapperTestData6>();
 
             // Act
-            List<ClassPropertyToDataTableColumnMap> mapList = classUnderTest.Map(theTable);
+            List<ClassPropertyToDataTableColumnMap> mapList = classUnderTest.Map(theTable, new ClassToDataTableConfiguration());
 
             // Assert
             Assert.AreEqual(2, theTable.Columns.Count, "Column count is wrong in the DataTable");
-            TestColumn(theTable, "SomeTestProperty", typeof(decimal));
-            TestColumn(theTable, "SomeIntProperty", typeof(int));
+            TestDataType(theTable, "SomeTestProperty", typeof(decimal));
+            TestDataType(theTable, "SomeIntProperty", typeof(int));
         }
 
 
-        private void TestColumn(DataTable theTable, string columnName, Type columnType)
+        private void TestDataType(DataTable theTable, string columnName, Type columnType)
         {
             DataColumn column = theTable.Columns[columnName];
             Assert.IsNotNull(column, $"The '{columnName}' column was not found!");
@@ -159,7 +189,7 @@ namespace ClassToDataTable.Tests
 
   
 
-    internal class PropertyOutputTest1
+    internal class ClassPropertyToDataTableColumnMapperTestData1
     {
         public int SomeIntProperty { get; set; }
 
@@ -167,21 +197,21 @@ namespace ClassToDataTable.Tests
         public string SomeStringProperty { get; set; }
     }
 
-    internal class PropertyOutputTest2
+    internal class ClassPropertyToDataTableColumnMapperTestData2
     {
         [ClassToDataTableConverter(typeof(MapperTestConverterWithClassOutput))]
         public int SomeIntProperty { get; set; }
         public string SomeStringProperty { get; set; }
     }
 
-    internal class PropertyInterfaceTest1
+    internal class ClassPropertyToDataTableColumnMapperTestData3
     {
         [ClassToDataTableConverter(typeof(NotRealConverter))]
         public int SomeIntProperty { get; set; }
         public string SomeStringProperty { get; set; }
     }
 
-    internal class PercentageTest1
+    internal class ClassPropertyToDataTableColumnMapperTestData4
     {
         [ClassToDataTableConverter(typeof(PercentCtodTypeConverter))]
         public string SomeTestProperty { get; set; }
@@ -189,7 +219,7 @@ namespace ClassToDataTable.Tests
     }
 
     [ClassToDataTableConverter(typeof(PercentCtodTypeConverter))]
-    internal class PercentageTest2
+    internal class ClassPropertyToDataTableColumnMapperTestData5
     {
         public string SomeTestProperty { get; set; }
         public int SomeIntProperty { get; set; }
@@ -197,9 +227,26 @@ namespace ClassToDataTable.Tests
 
 
     [ClassToDataTableConverter(typeof(PercentCtodTypeConverter), TargetPropertyType =typeof(string))]
-    internal class PercentageTest3
+    internal class ClassPropertyToDataTableColumnMapperTestData6
     {
         public string SomeTestProperty { get; set; }
         public int SomeIntProperty { get; set; }
     }
+
+
+    internal class ClassPropertyToDataTableColumnMapperTestData7
+    {
+        public string SomeTestProperty { get; set; }
+        public int[] SomeIntArrayProperty { get; set; }
+    }
+
+
+    internal class ClassPropertyToDataTableColumnMapperTestData8
+    {
+        public ClassPropertyToDataTableColumnMapperTestData7 SomeTestProperty { get; set; }
+        public int SomeIntProperty { get; set; }
+    }
+
+
+
 }

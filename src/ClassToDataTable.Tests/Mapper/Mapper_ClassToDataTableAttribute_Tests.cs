@@ -17,7 +17,7 @@ namespace ClassToDataTable.Tests
             var classUnderTest = new ClassPropertyToDataTableColumnMapper<PropertyMapPrimitiveTest>();
 
             // Act
-            List<ClassPropertyToDataTableColumnMap> mapList = classUnderTest.Map(theTable);
+            List<ClassPropertyToDataTableColumnMap> mapList = classUnderTest.Map(theTable, new ClassToDataTableConfiguration());
 
             // Assert
             Assert.AreEqual(9, theTable.Columns.Count, "Column count is wrong in the DataTable");
@@ -41,7 +41,7 @@ namespace ClassToDataTable.Tests
             var classUnderTest = new ClassPropertyToDataTableColumnMapper<PropertyMapArrayTest>();
 
             // Act
-            List<ClassPropertyToDataTableColumnMap> mapList = classUnderTest.Map(theTable);
+            List<ClassPropertyToDataTableColumnMap> mapList = classUnderTest.Map(theTable, new ClassToDataTableConfiguration());
 
             // Assert
             Assert.Fail($"You must mark properites with array types with the {nameof(ClassToDataTableAttribute)} Ignore property or you get an exception.");
@@ -56,7 +56,7 @@ namespace ClassToDataTable.Tests
             var classUnderTest = new ClassPropertyToDataTableColumnMapper<PropertyMapClassTest>();
 
             // Act
-            List<ClassPropertyToDataTableColumnMap> mapList = classUnderTest.Map(theTable);
+            List<ClassPropertyToDataTableColumnMap> mapList = classUnderTest.Map(theTable, new ClassToDataTableConfiguration());
 
             // Assert
             Assert.Fail($"You must mark properties with class types with the {nameof(ClassToDataTableAttribute)} Ignore property or you get an exception.");
@@ -71,7 +71,7 @@ namespace ClassToDataTable.Tests
             var classUnderTest = new ClassPropertyToDataTableColumnMapper<PropertyMapIgnoreTest>();
 
             // Act
-            List<ClassPropertyToDataTableColumnMap> mapList = classUnderTest.Map(theTable);
+            List<ClassPropertyToDataTableColumnMap> mapList = classUnderTest.Map(theTable, new ClassToDataTableConfiguration());
 
             // Assert
             Assert.AreEqual(1, theTable.Columns.Count, "Column count is wrong in the DataTable");

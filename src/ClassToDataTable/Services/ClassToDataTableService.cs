@@ -5,13 +5,18 @@ using ClassToDataTable.Mapper;
 
 namespace ClassToDataTable
 {
+
     public class ClassToDataTableService<T>
     {
         private List<ClassPropertyToDataTableColumnMap> _propertyMapList;
         public ClassToDataTableService()
         {
-            _propertyMapList = new ClassPropertyToDataTableColumnMapper<T>().Map(Table);
+            _propertyMapList = new ClassPropertyToDataTableColumnMapper<T>().Map(Table, Configuration);
         }
+
+        /// <summary>General Configuration settings</summary>
+        public ClassToDataTableConfiguration Configuration { get; private set; } = new ClassToDataTableConfiguration();
+        
         public DataTable Table { get; set; } = new DataTable();
  
         public void AddRow(T source)
