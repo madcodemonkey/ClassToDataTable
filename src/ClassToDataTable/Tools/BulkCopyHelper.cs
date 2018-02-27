@@ -10,7 +10,6 @@ namespace ClassToDataTable.Tools
     /// <typeparam name="T"></typeparam>
     public class BulkCopyHelper<T> : IBulkCopyHelper
     {
-        private ClassToDataTableService<T> _converter = new ClassToDataTableService<T>();
         private SqlBulkCopy _bulkCopy;
         private bool _initialized = false;
         public void Dispose()
@@ -23,6 +22,9 @@ namespace ClassToDataTable.Tools
             }
         }
 
+        /// <summary>Converter used to build a DataTable.  It is surfaced here mainly so that you can access the Configuration settings</summary>
+        public IClassToDataTableService<T> Converter { get; set; } = new ClassToDataTableService<T>();
+
         /// <summary>The total number of records that BulkCopy was able to push to the database without error.</summary>
         public int TotalWrittenCount { get; set; }
 
@@ -30,7 +32,7 @@ namespace ClassToDataTable.Tools
         public int BatchSize { get; private set; }
 
         /// <summary>The current number of records queued (not yet sent...waiting for BatchSize to be reached)</summary>
-        public int QueueCount { get { return _converter.Count; } }
+        public int QueueCount { get { return Converter.Count; } }
 
         /// <summary>Initialize the SqlBulkCopy object</summary>
         /// <param name="destinationConnection">A connection string that you have created, opened and eventually YOU will dispose of.</param>
@@ -45,7 +47,7 @@ namespace ClassToDataTable.Tools
             _bulkCopy.DestinationTableName = $"[{tableSchema}].[{tableName}]";
             _bulkCopy.BatchSize = batchSize;
             _bulkCopy.BulkCopyTimeout = bulkCopyTimeoutInSeconds; 
-            foreach (DataColumn column in _converter.Table.Columns)
+            foreach (DataColumn column in Converter.Table.Columns)
             {
                 _bulkCopy.ColumnMappings.Add(column.ColumnName, column.ColumnName);
             }
@@ -67,8 +69,8 @@ namespace ClassToDataTable.Tools
             if (_initialized == false)
                 throw new ArgumentException("Please call initialize before calling AddRow.");
 
-            _converter.AddRow((T) record);
-            if (_converter.Count % BatchSize == 0)
+            Converter.AddRow((T) record);
+            if (Converter.Count % BatchSize == 0)
                   await Flush();
         }
 
@@ -98,14 +100,14 @@ namespace ClassToDataTable.Tools
                 throw new ArgumentException("Please call initialize before calling flush.");
 
             // Is there anything to save?
-            if (_converter.Count == 0)
+            if (Converter.Count == 0)
                 return;
 
             // WRITE to SERVER!
-            await _bulkCopy.WriteToServerAsync(_converter.Table);
+            await _bulkCopy.WriteToServerAsync(Converter.Table);
 
-            TotalWrittenCount += _converter.Count;
-            _converter.Clear();            
+            TotalWrittenCount += Converter.Count;
+            Converter.Clear();            
         }
     }
 

@@ -49,6 +49,7 @@
     <Compile Include="Mapper\ClassPropertyToDataTableColumnMap.cs" />
     <Compile Include="Mapper\ValidDataTableDataTypes.cs" />
     <Compile Include="Configuration\ClassToDataTableConfiguration.cs" />
+    <Compile Include="Services\IClassToDataTableService.cs" />
     <Compile Include="Shared\Reflection\ReflectionCreateExtensions.cs" />
     <Compile Include="Tools\BulkCopyHelper.cs" />
     <Compile Include="Tools\DatabaseTable.cs" />

@@ -6,7 +6,7 @@ using ClassToDataTable.Mapper;
 namespace ClassToDataTable
 {
 
-    public class ClassToDataTableService<T>
+    public class ClassToDataTableService<T> : IClassToDataTableService<T>
     {
         private List<ClassPropertyToDataTableColumnMap> _propertyMapList;
         public ClassToDataTableService()
