@@ -53,7 +53,7 @@ namespace ClassToDataTable.Tests
 
             // Assert
             Assert.AreEqual(1, mapList.Count);
-            TestDataType(theTable, "SomeTestProperty", typeof(string));
+            TestDataType(theTable, "SomeIntProperty", typeof(int));
         }
 
         [TestMethod]

@@ -112,31 +112,6 @@ namespace ClassToDataTable.Tools
             TotalWrittenCount += CtoDService.Count;
             CtoDService.Clear();            
         }
-
-        Task IBulkCopyHelper.AddRow(object record)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task IBulkCopyHelper.AddRows(List<object> records)
-        {
-            throw new NotImplementedException();
-        }
-
-        Task IBulkCopyHelper.Flush()
-        {
-            throw new NotImplementedException();
-        }
-
-        void IBulkCopyHelper.Initialize(SqlConnection destinationConnection, string tableSchema, string tableName, int batchSize, int bulkCopyTimeoutInSeconds)
-        {
-            throw new NotImplementedException();
-        }
-
-        void IDisposable.Dispose()
-        {
-            throw new NotImplementedException();
-        }
     }
 
     public class BulkCopyHelper
