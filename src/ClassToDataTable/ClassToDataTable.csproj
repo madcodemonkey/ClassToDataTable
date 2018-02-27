@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="Attributes\ClassToDataTableAttribute.cs" />
     <Compile Include="Attributes\ClassToDataTableConverterAttribute.cs" />
+    <Compile Include="Configuration\IClassToDataTableConfiguration.cs" />
     <Compile Include="Mapper\ClassPropertyToDataTableColumnMap.cs" />
     <Compile Include="Mapper\ValidDataTableDataTypes.cs" />
     <Compile Include="Configuration\ClassToDataTableConfiguration.cs" />

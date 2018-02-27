@@ -10,6 +10,8 @@ namespace ClassToDataTable.Tools
         /// <summary>The size of the batch you would like to send (set it in the Initialize method)</summary>
         int BatchSize { get; }
 
+        IClassToDataTableConfiguration Configuration { get; }
+
         /// <summary>The current number of records queued (not yet sent...waiting for BatchSize to be reached)</summary>
         int QueueCount { get; }
 
