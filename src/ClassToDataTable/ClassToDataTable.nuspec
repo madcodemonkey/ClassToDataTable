@@ -10,7 +10,7 @@
     <projectUrl>https://github.com/madcodemonkey/ClassToDataTable</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>$description$</description>
-    <releaseNotes>Minor adjustments.</releaseNotes>
+    <releaseNotes>Including XML document file to summary comments working with intellisense</releaseNotes>
     <copyright>Copyright 2018</copyright>
     <tags>DataTable converter</tags>
   </metadata>
