@@ -1,22 +1,19 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27130.2027
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31129.286
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdvExample1", "ClassToDataTable.AdvExample1\AdvExample1.csproj", "{9440032C-AE95-4BAC-9764-D5F07711C815}"
-	ProjectSection(ProjectDependencies) = postProject
-		{E776B859-6F2E-42B2-B1FE-AB7108AF3A3A} = {E776B859-6F2E-42B2-B1FE-AB7108AF3A3A}
-	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleExample1", "ClassToDataTable.SimpleExample1\SimpleExample1.csproj", "{B847DFEE-CBFC-4382-B4AE-23ED4691841B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{8522426C-7B40-44AE-90E1-BCDCFB861DEC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassToDataTable", "ClassToDataTable\ClassToDataTable.csproj", "{E776B859-6F2E-42B2-B1FE-AB7108AF3A3A}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassToDataTable.Tests", "ClassToDataTable.Tests\ClassToDataTable.Tests.csproj", "{81434F9E-2A33-442B-9472-ED3A5999F261}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{B61FC893-217E-4142-A624-2856A46A7324}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassToDataTable", "ClassToDataTable\ClassToDataTable.csproj", "{F6211C1F-14AA-401D-B032-F37196076040}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,14 +37,6 @@ Global
 		{B847DFEE-CBFC-4382-B4AE-23ED4691841B}.Release|Any CPU.ActiveCfg = Release|x86
 		{B847DFEE-CBFC-4382-B4AE-23ED4691841B}.Release|x86.ActiveCfg = Release|x86
 		{B847DFEE-CBFC-4382-B4AE-23ED4691841B}.Release|x86.Build.0 = Release|x86
-		{E776B859-6F2E-42B2-B1FE-AB7108AF3A3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E776B859-6F2E-42B2-B1FE-AB7108AF3A3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E776B859-6F2E-42B2-B1FE-AB7108AF3A3A}.Debug|x86.ActiveCfg = Debug|Any CPU
-		{E776B859-6F2E-42B2-B1FE-AB7108AF3A3A}.Debug|x86.Build.0 = Debug|Any CPU
-		{E776B859-6F2E-42B2-B1FE-AB7108AF3A3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E776B859-6F2E-42B2-B1FE-AB7108AF3A3A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E776B859-6F2E-42B2-B1FE-AB7108AF3A3A}.Release|x86.ActiveCfg = Release|Any CPU
-		{E776B859-6F2E-42B2-B1FE-AB7108AF3A3A}.Release|x86.Build.0 = Release|Any CPU
 		{81434F9E-2A33-442B-9472-ED3A5999F261}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{81434F9E-2A33-442B-9472-ED3A5999F261}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81434F9E-2A33-442B-9472-ED3A5999F261}.Debug|x86.ActiveCfg = Debug|Any CPU
@@ -56,6 +45,14 @@ Global
 		{81434F9E-2A33-442B-9472-ED3A5999F261}.Release|Any CPU.Build.0 = Release|Any CPU
 		{81434F9E-2A33-442B-9472-ED3A5999F261}.Release|x86.ActiveCfg = Release|Any CPU
 		{81434F9E-2A33-442B-9472-ED3A5999F261}.Release|x86.Build.0 = Release|Any CPU
+		{F6211C1F-14AA-401D-B032-F37196076040}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6211C1F-14AA-401D-B032-F37196076040}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6211C1F-14AA-401D-B032-F37196076040}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F6211C1F-14AA-401D-B032-F37196076040}.Debug|x86.Build.0 = Debug|Any CPU
+		{F6211C1F-14AA-401D-B032-F37196076040}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6211C1F-14AA-401D-B032-F37196076040}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6211C1F-14AA-401D-B032-F37196076040}.Release|x86.ActiveCfg = Release|Any CPU
+		{F6211C1F-14AA-401D-B032-F37196076040}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

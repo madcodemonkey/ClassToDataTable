@@ -1,5 +1,4 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 
 namespace AdvExample1
 {
@@ -16,7 +15,7 @@ namespace AdvExample1
             {
                 return new FileAndFolderResult(true, dialog.SelectedPath);
             }
-            
+
             return new FileAndFolderResult(false, string.Empty);
         }
 

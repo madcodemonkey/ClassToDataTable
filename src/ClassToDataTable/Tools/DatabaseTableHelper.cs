@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
+﻿using System.Collections.Generic;
 using System.Text;
 using ClassToDataTable.Shared;
+using Microsoft.Data.SqlClient;
 
 namespace ClassToDataTable.Tools
 {
