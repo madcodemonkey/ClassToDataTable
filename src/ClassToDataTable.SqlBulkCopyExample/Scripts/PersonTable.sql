@@ -11,11 +11,10 @@ CREATE TABLE [dbo].[Person](
 	[Age] [int] NOT NULL,
 	[CreateDate] [datetime] NOT NULL,
 	[Birthday] [datetime] NULL,
+	[Gender] [smallint] NULL,
  CONSTRAINT [PK_Person] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-
-

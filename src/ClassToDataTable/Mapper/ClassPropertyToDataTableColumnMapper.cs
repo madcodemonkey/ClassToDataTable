@@ -30,6 +30,7 @@ namespace ClassToDataTable.Mapper
             newMap.Converter = oneCustomAttribute.TypeConverter.HelpCreateAndCastToInterface<IClassToDataTableTypeConverter>(            
                 $"The '{newMap.PropInformation.Name}' property on the {_theClassType.Name} class specified a converter, but there is a problem!");
                         
+            newMap.Converter.Initialize(oneCustomAttribute);
             newMap.OutputType = newMap.Converter.OutputType;
 
             if (_validDataTableDataTypes.IsValidType(newMap.OutputType) == false)
@@ -46,8 +47,6 @@ namespace ClassToDataTable.Mapper
                     $"has a {nameof(ClassToDataTableConverterAttribute)}, but it cannot convert a data of the " +
                     $"{newMap.PropInformation.PropertyType.Name} type!");
             }
-
-            newMap.Converter.Initialize(oneCustomAttribute);
         }
 
         /// <summary>Creates the property maps</summary>

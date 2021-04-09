@@ -14,7 +14,7 @@ namespace ClassToDataTable.TypeConverters
         /// <param name="inputType">The class property type of the source.</param>
         bool CanConvert(Type inputType);
 
-        /// <summary>Passess in property and the instantiated object so that the user can pull the data from the
+        /// <summary>Passes in property and the instantiated object so that the user can pull the data from the
         /// property and convert it to whatever they choose.</summary>
         /// <param name="propInfo">Property Information</param>
         /// <param name="sourceObject">THe instantiated object</param>
