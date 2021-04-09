@@ -7,7 +7,6 @@ using Microsoft.Data.SqlClient;
 namespace ClassToDataTable.Tools
 {
     /// <summary>Uses SqlBulkCopy to copy data to a server.</summary>
-    /// <typeparam name="T"></typeparam>
     public class BulkCopyHelper<T> : IBulkCopyHelper
     {
         private SqlBulkCopy _bulkCopy;
@@ -42,6 +41,7 @@ namespace ClassToDataTable.Tools
         /// <param name="tableSchema">The schema of the target table.</param>
         /// <param name="tableName">The name of the target table.</param>
         /// <param name="batchSize">The size of the batch you plan to send.</param>
+        /// <param name="bulkCopyTimeoutInSeconds">The timeout in seconds.</param>
         /// <remarks>I'm initializing things here as opposed to the constructor so that it is easier to setup the helper when using reflection 
         /// to dynamically create a generic type.</remarks>
         public void Initialize(SqlConnection destinationConnection, string tableSchema, string tableName, int batchSize, int bulkCopyTimeoutInSeconds = 60)
@@ -80,7 +80,7 @@ namespace ClassToDataTable.Tools
         /// <summary>Adds a list of rows to the converter.  Once BatchSize is reached, data is written to the server.  If you have
         /// no more data to add, call Flush to push the remaining data to the server.</summary>
         /// <param name="records">A list of records to send to the server. </param>
-        /// <remarks> I used List<T> here rather than T so that I can use the interface when dynamically creating BulkCopyHelper.BulkCopyHelper of T via 
+        /// <remarks> I used List of T here rather than T so that I can use the interface when dynamically creating BulkCopyHelper.BulkCopyHelper of T via 
         /// reflection (see CreateBasedOnType below).</remarks>
         public async Task AddRows(List<object> records)
         {
@@ -114,8 +114,13 @@ namespace ClassToDataTable.Tools
         }
     }
 
+    /// <summary>Bulk Copy Helper</summary>
     public class BulkCopyHelper
     {
+        /// <summary>Creates BulkCopyHelper based on string inputs.</summary>
+        /// <param name="theNamespace">The namespace</param>
+        /// <param name="theClassName">The class name</param>
+        /// <param name="theAssemblyName">The assembly name</param>
         public static IBulkCopyHelper CreateBaseOnStrings(string theNamespace, string theClassName, string theAssemblyName)
         {
             // Figure out the type
@@ -126,6 +131,7 @@ namespace ClassToDataTable.Tools
             return CreateBasedOnType(theType);
         }
 
+        /// <summary>Creates BulkCopyHelper based on a type.</summary>
         public static IBulkCopyHelper CreateBasedOnType(Type theType)
         {
             Type generic = typeof(BulkCopyHelper<>);

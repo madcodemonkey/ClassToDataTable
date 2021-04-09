@@ -27,7 +27,7 @@ namespace ClassToDataTable.Tests
         }
 
         [TestMethod]        
-        public void Map_ClassCanHaveArrayPropertyTypeWithoutIgnoreIfConfiguratoinSetttingIsUsed_NoException()
+        public void Map_ClassCanHaveArrayPropertyTypeWithoutIgnoreIfConfigurationSettingIsUsed_NoException()
         {
             // Arrange
             var theTable = new DataTable();

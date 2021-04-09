@@ -8,13 +8,20 @@ namespace ClassToDataTable.TypeConverters
     /// It it cannot parse the string, it throws an exception.  Nulls are ignored.</summary>
     public class PercentCtodTypeConverter : IClassToDataTableTypeConverter
     {
+        /// <summary>Output type</summary>
         public Type OutputType => typeof(decimal);
 
+        /// <summary>Can Convert type</summary>
+        /// <param name="inputType">Type to convert</param>
+        /// <returns></returns>
         public bool CanConvert(Type inputType)
         {
             return inputType == typeof(string);
         }
 
+        /// <summary>Converts the type.</summary>
+        /// <param name="propInfo">Property info</param>
+        /// <param name="sourceObject">Source object</param>
         public object Convert(PropertyInfo propInfo, object sourceObject)
         {
             object data = propInfo.GetValue(sourceObject);
@@ -41,6 +48,7 @@ namespace ClassToDataTable.TypeConverters
             throw new ArgumentException($"The {nameof(PercentCtodTypeConverter)} converter cannot parse the following string: '{stringData}'");
         }
 
+        /// <summary>Initialize</summary>
         public void Initialize(ClassToDataTableConverterAttribute attribute)
         {
             // No data needed from the attribute

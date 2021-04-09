@@ -3,6 +3,7 @@ using System.Reflection;
 
 namespace ClassToDataTable.TypeConverters
 {
+    /// <summary>Class to DataTable type converter</summary>
     public interface IClassToDataTableTypeConverter
     {
         /// <summary>The type of data that the converter outputs.  It should be a valid data type accepted
@@ -10,7 +11,7 @@ namespace ClassToDataTable.TypeConverters
         Type OutputType { get; }
 
         /// <summary>This method is called to make sure that the converter can process the type.</summary>
-        /// <param name="theType">The class property type of the source.</param>
+        /// <param name="inputType">The class property type of the source.</param>
         bool CanConvert(Type inputType);
 
         /// <summary>Passess in property and the instantiated object so that the user can pull the data from the

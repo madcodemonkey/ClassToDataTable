@@ -44,7 +44,7 @@ namespace ClassToDataTable.Tests
             List<ClassPropertyToDataTableColumnMap> mapList = classUnderTest.Map(theTable, new ClassToDataTableConfiguration());
 
             // Assert
-            Assert.Fail($"You must mark properites with array types with the {nameof(ClassToDataTableAttribute)} Ignore property or you get an exception.");
+            Assert.Fail($"You must mark properties with array types with the {nameof(ClassToDataTableAttribute)} Ignore property or you get an exception.");
         }
 
         [TestMethod]

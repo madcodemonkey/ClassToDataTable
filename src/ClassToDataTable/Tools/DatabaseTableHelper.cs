@@ -5,10 +5,12 @@ using Microsoft.Data.SqlClient;
 
 namespace ClassToDataTable.Tools
 {
+    /// <summary>Used to work with database tables.</summary>
     public class DatabaseTableHelper 
     {
         private readonly SqlConnection _connection;
 
+        /// <summary>Constructor</summary>
         public DatabaseTableHelper(SqlConnection connection)
         {
             _connection = connection;

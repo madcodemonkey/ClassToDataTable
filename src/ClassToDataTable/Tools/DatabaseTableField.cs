@@ -102,8 +102,6 @@ namespace ClassToDataTable.Tools
         
         /// <summary>Shows the data type as it would appear in sql server management studio with type and parenthesis and
         /// the words null or not null</summary>
-        /// <param name="dataType">Some data type</param>
-        /// <returns></returns>
         public string DataTypeAsString()
         {
             var result = DataType.ToLower();

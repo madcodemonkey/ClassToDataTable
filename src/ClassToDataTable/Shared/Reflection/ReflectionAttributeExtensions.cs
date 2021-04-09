@@ -5,6 +5,7 @@ using System.Reflection;
 
 namespace ClassToDataTable.Shared
 {
+    /// <summary>Reflect attribute extensions</summary>
     public static class ReflectionAttributeExtensions
     {
         /// <summary>Finds all the attributes of the specified type (T) on the class.</summary> 
@@ -30,7 +31,10 @@ namespace ClassToDataTable.Shared
         {
             object oneAttributeAsObject = info.GetCustomAttributes(typeof(T), inherit).FirstOrDefault();
             if (oneAttributeAsObject == null)
+            {
                 return null;
+            }
+
             return oneAttributeAsObject as T;
         }
         /// <summary>Finds all the attributes of the specified type (T).</summary>

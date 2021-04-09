@@ -2,6 +2,7 @@
 
 namespace ClassToDataTable.Shared
 {
+    /// <summary>Reflect create extensions.</summary>
     public static class ReflectionCreateExtensions
     {
         /// <summary>Creates a class (someType) and cast it to an interface (TInterface).</summary>
