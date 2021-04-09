@@ -10,7 +10,7 @@
 		<projectUrl>https://github.com/madcodemonkey/ClassToDataTable</projectUrl>
 		<requireLicenseAcceptance>false</requireLicenseAcceptance>
 		<description>$description$</description>
-		<releaseNotes>Converted to .NET Standard 2.0.</releaseNotes>
+		<releaseNotes>Converted to .NET Standard 2.0 and removed several tools that would create dependencies for this package.  If you still need them, see the example code and pull them from there.</releaseNotes>
 		<copyright>2021</copyright>
 		<tags>DataTable converter</tags>
 	</metadata>
