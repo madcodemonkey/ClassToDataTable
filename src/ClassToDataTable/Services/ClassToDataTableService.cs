@@ -24,12 +24,14 @@ namespace ClassToDataTable
         public void AddRow(T source)
         {
             if (source == null)
-                throw new ArgumentNullException("Please pass in data and not nulls!");
+            {
+                throw new ArgumentNullException(nameof(source), "Please pass in data and not nulls!");
+            }
 
             object[] values = new object[_propertyMapList.Count];
             foreach (var column in _propertyMapList)
             {
-                object someValue = (column.Converter == null) ? column.PropInformation.GetValue(source) :
+                object someValue = column.Converter == null ? column.PropInformation.GetValue(source) :
                     column.Converter.Convert(column.PropInformation, source);
 
                 // DataSet does not support System.Nullable<> so we use DBNull.Value to specify that we have a null.
