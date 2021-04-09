@@ -38,6 +38,8 @@ namespace SimpleExample1
                     service.AddRow(newPerson);
                 }
 
+                LogMessage($"There are {service.Table.Rows.Count} rows in the table now");
+
                 // TODO: Do something with the table:  service.Table
             }
             catch (Exception ex)

@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Threading.Tasks;
+using ClassToDataTable;
+using Microsoft.Data.SqlClient;
 
-namespace ClassToDataTable.Tools
+namespace SqlBulkCopyExample
 {
-    public interface IBulkCopyHelper : IDisposable
+    /// <summary>Uses SqlBulkCopy to copy data to a server.</summary>
+    public interface IBulkCopyHelper<T> : IDisposable
     {
         /// <summary>The size of the batch you would like to send (set it in the Initialize method)</summary>
         int BatchSize { get; }
 
+        /// <summary>Configuration</summary>
         IClassToDataTableConfiguration Configuration { get; }
 
         /// <summary>The current number of records queued (not yet sent...waiting for BatchSize to be reached)</summary>
@@ -23,14 +26,14 @@ namespace ClassToDataTable.Tools
         /// <param name="record">A record to send to the server. </param>
         /// <remarks> I used object here rather than T so that I can use the interface when dynamically creating BulkCopyHelper of T via reflection.
         /// After obtaining the dynamically created BulkCopyHelper of T, I can cast it to this interface and use it in code.</remarks>
-        Task AddRow(object record);
+        Task AddRow(T record);
 
         /// <summary>Adds a list of rows to the converter.  Once BatchSize is reached, data is written to the server.  If you have
         /// no more data to add, call Flush to push the remaining data to the server.</summary>
         /// <param name="records">A list of records to send to the server. </param>
-        /// <remarks> I used List<T> here rather than T so that I can use the interface when dynamically creating BulkCopyHelper of T via reflection.
+        /// <remarks> I used List of T here rather than T so that I can use the interface when dynamically creating BulkCopyHelper of T via reflection.
         /// After obtaining the dynamically created BulkCopyHelper of T, I can cast it to this interface and use it in code.</remarks>
-        Task AddRows(List<object> records);
+        Task AddRows(List<T> records);
 
         /// <summary>Flushes any remaining records to the server.  Call this once you are done adding rows so that the last records in the queue
         /// can be flushed to the server.  It's OK to call this method if there is nothing in the queue.</summary>

@@ -1,17 +1,20 @@
-<?xml version="1.0"?>
-<package >
-  <metadata>
-    <id>$id$</id>
-    <version>$version$</version>
-    <title>$title$</title>
-    <authors>$author$</authors>
-    <owners>$author$</owners>
-    <licenseUrl>https://github.com/madcodemonkey/ClassToDataTable/blob/master/LICENSE</licenseUrl>
-    <projectUrl>https://github.com/madcodemonkey/ClassToDataTable</projectUrl>
-    <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>$description$</description>
-    <releaseNotes>Including XML document file to summary comments working with intellisense</releaseNotes>
-    <copyright>Copyright 2018</copyright>
-    <tags>DataTable converter</tags>
-  </metadata>
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+	<metadata>
+		<id>ClassToDataTable</id>
+		<title>Class to DataTable converter</title>
+		<version>$version$</version>
+		<authors>David Yates</authors>
+		<owners>David Yates</owners>
+		<license type="file">License\LICENSE</license>
+		<projectUrl>https://github.com/madcodemonkey/ClassToDataTable</projectUrl>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<description>$description$</description>
+		<releaseNotes>Converted to .NET Standard 2.0 and removed several tools that would create dependencies for this package.  If you still need them, see the example code and pull them from there.</releaseNotes>
+		<copyright>2021</copyright>
+		<tags>DataTable converter</tags>
+	</metadata>
+	<files>
+		<file src="..\..\LICENSE" target="License\LICENSE" />
+	</files>
 </package>

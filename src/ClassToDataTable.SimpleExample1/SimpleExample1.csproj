@@ -87,7 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ClassToDataTable\ClassToDataTable.csproj">
-      <Project>{e776b859-6f2e-42b2-b1fe-ab7108af3a3a}</Project>
+      <Project>{f6211c1f-14aa-401d-b032-f37196076040}</Project>
       <Name>ClassToDataTable</Name>
     </ProjectReference>
   </ItemGroup>

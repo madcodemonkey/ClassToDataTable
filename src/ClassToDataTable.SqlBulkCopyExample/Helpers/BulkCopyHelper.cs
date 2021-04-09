@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
 using System.Threading.Tasks;
+using ClassToDataTable;
+using Microsoft.Data.SqlClient;
 
-namespace ClassToDataTable.Tools
+namespace SqlBulkCopyExample
 {
     /// <summary>Uses SqlBulkCopy to copy data to a server.</summary>
-    /// <typeparam name="T"></typeparam>
-    public class BulkCopyHelper<T> : IBulkCopyHelper
+    public class BulkCopyHelper<T> : IBulkCopyHelper<T>
     {
         private SqlBulkCopy _bulkCopy;
         private bool _initialized = false;
@@ -35,13 +35,14 @@ namespace ClassToDataTable.Tools
         public int QueueCount { get { return CtoDService.Count; } }
         
         /// <summary>The Configuration information of the underlying ClassToDataTableService</summary>        
-        IClassToDataTableConfiguration IBulkCopyHelper.Configuration => CtoDService.Configuration;
+        public IClassToDataTableConfiguration Configuration => CtoDService.Configuration;
 
         /// <summary>Initialize the SqlBulkCopy object</summary>
         /// <param name="destinationConnection">A connection string that you have created, opened and eventually YOU will dispose of.</param>
         /// <param name="tableSchema">The schema of the target table.</param>
         /// <param name="tableName">The name of the target table.</param>
         /// <param name="batchSize">The size of the batch you plan to send.</param>
+        /// <param name="bulkCopyTimeoutInSeconds">The timeout in seconds.</param>
         /// <remarks>I'm initializing things here as opposed to the constructor so that it is easier to setup the helper when using reflection 
         /// to dynamically create a generic type.</remarks>
         public void Initialize(SqlConnection destinationConnection, string tableSchema, string tableName, int batchSize, int bulkCopyTimeoutInSeconds = 60)
@@ -65,7 +66,7 @@ namespace ClassToDataTable.Tools
         /// <param name="record">A record to send to the server. </param>
         /// <remarks> I used object here rather than T so that I can use the interface when dynamically creating BulkCopyHelper.BulkCopyHelper of T via 
         /// reflection (see CreateBasedOnType below).</remarks>
-        public async Task AddRow(object record)
+        public async Task AddRow(T record)
         {
             if (record == null)
                 throw new ArgumentNullException("Please do not pass null records to the AddRow method!");
@@ -80,9 +81,9 @@ namespace ClassToDataTable.Tools
         /// <summary>Adds a list of rows to the converter.  Once BatchSize is reached, data is written to the server.  If you have
         /// no more data to add, call Flush to push the remaining data to the server.</summary>
         /// <param name="records">A list of records to send to the server. </param>
-        /// <remarks> I used List<T> here rather than T so that I can use the interface when dynamically creating BulkCopyHelper.BulkCopyHelper of T via 
+        /// <remarks> I used List of T here rather than T so that I can use the interface when dynamically creating BulkCopyHelper.BulkCopyHelper of T via 
         /// reflection (see CreateBasedOnType below).</remarks>
-        public async Task AddRows(List<object> records)
+        public async Task AddRows(List<T> records)
         {
             if (records == null)
                 throw new ArgumentNullException("Please do not pass a null list to the AddRows method!");
@@ -113,25 +114,5 @@ namespace ClassToDataTable.Tools
             CtoDService.Clear();            
         }
     }
-
-    public class BulkCopyHelper
-    {
-        public static IBulkCopyHelper CreateBaseOnStrings(string theNamespace, string theClassName, string theAssemblyName)
-        {
-            // Figure out the type
-            string nameOfClass = $"{theNamespace}.{theClassName},{theAssemblyName}";
-            var theType = Type.GetType(nameOfClass);
-
-            // Now use the other method 
-            return CreateBasedOnType(theType);
-        }
-
-        public static IBulkCopyHelper CreateBasedOnType(Type theType)
-        {
-            Type generic = typeof(BulkCopyHelper<>);
-            Type constructed = generic.MakeGenericType(theType);
-
-            return Activator.CreateInstance(constructed) as IBulkCopyHelper;
-        }
-    }
+     
 }

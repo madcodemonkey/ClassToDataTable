@@ -2,17 +2,27 @@
 
 namespace ClassToDataTable.Shared
 {
+    /// <summary>Reflect create extensions.</summary>
     public static class ReflectionCreateExtensions
     {
         /// <summary>Creates a class (someType) and cast it to an interface (TInterface).</summary>
         public static TInterface HelpCreateAndCastToInterface<TInterface>(this Type someType, string optionalMessage = "")
         {
             if (someType == null)
-                throw new ArgumentNullException("Please specify a type!  {optionalMessage}");
+            {
+                throw new ArgumentNullException($"Please specify a type!  {optionalMessage}");
+            }
+
             if (someType.IsClass == false)
+            {
                 throw new ArgumentException($"The {someType.Name} type is not a class!  {optionalMessage}");
+            }
+
             if (typeof(TInterface).IsAssignableFrom(someType) == false)
+            {
                 throw new ArgumentException($"The {someType.Name} class does not implement the {typeof(TInterface).Name} interface!  {optionalMessage}");
+            }
+
             return (TInterface)Activator.CreateInstance(someType);
         }
 

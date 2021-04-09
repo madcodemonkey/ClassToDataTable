@@ -15,7 +15,9 @@ namespace ClassToDataTable.Mapper
         public bool IsValidType(Type theType)
         {
             if (_validTypes.ContainsKey(theType) == false)
+            {
                 return false;
+            }
 
             return _validTypes[theType];
         }
