@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Threading.Tasks;
+using ClassToDataTable;
 using Microsoft.Data.SqlClient;
 
-namespace ClassToDataTable.Tools
+namespace SqlBulkCopyExample
 {
     /// <summary>Uses SqlBulkCopy to copy data to a server.</summary>
-    public class BulkCopyHelper<T> : IBulkCopyHelper
+    public class BulkCopyHelper<T> : IBulkCopyHelper<T>
     {
         private SqlBulkCopy _bulkCopy;
         private bool _initialized = false;
@@ -34,7 +35,7 @@ namespace ClassToDataTable.Tools
         public int QueueCount { get { return CtoDService.Count; } }
         
         /// <summary>The Configuration information of the underlying ClassToDataTableService</summary>        
-        IClassToDataTableConfiguration IBulkCopyHelper.Configuration => CtoDService.Configuration;
+        public IClassToDataTableConfiguration Configuration => CtoDService.Configuration;
 
         /// <summary>Initialize the SqlBulkCopy object</summary>
         /// <param name="destinationConnection">A connection string that you have created, opened and eventually YOU will dispose of.</param>
@@ -65,7 +66,7 @@ namespace ClassToDataTable.Tools
         /// <param name="record">A record to send to the server. </param>
         /// <remarks> I used object here rather than T so that I can use the interface when dynamically creating BulkCopyHelper.BulkCopyHelper of T via 
         /// reflection (see CreateBasedOnType below).</remarks>
-        public async Task AddRow(object record)
+        public async Task AddRow(T record)
         {
             if (record == null)
                 throw new ArgumentNullException("Please do not pass null records to the AddRow method!");
@@ -82,7 +83,7 @@ namespace ClassToDataTable.Tools
         /// <param name="records">A list of records to send to the server. </param>
         /// <remarks> I used List of T here rather than T so that I can use the interface when dynamically creating BulkCopyHelper.BulkCopyHelper of T via 
         /// reflection (see CreateBasedOnType below).</remarks>
-        public async Task AddRows(List<object> records)
+        public async Task AddRows(List<T> records)
         {
             if (records == null)
                 throw new ArgumentNullException("Please do not pass a null list to the AddRows method!");
@@ -113,31 +114,5 @@ namespace ClassToDataTable.Tools
             CtoDService.Clear();            
         }
     }
-
-    /// <summary>Bulk Copy Helper</summary>
-    public class BulkCopyHelper
-    {
-        /// <summary>Creates BulkCopyHelper based on string inputs.</summary>
-        /// <param name="theNamespace">The namespace</param>
-        /// <param name="theClassName">The class name</param>
-        /// <param name="theAssemblyName">The assembly name</param>
-        public static IBulkCopyHelper CreateBaseOnStrings(string theNamespace, string theClassName, string theAssemblyName)
-        {
-            // Figure out the type
-            string nameOfClass = $"{theNamespace}.{theClassName},{theAssemblyName}";
-            var theType = Type.GetType(nameOfClass);
-
-            // Now use the other method 
-            return CreateBasedOnType(theType);
-        }
-
-        /// <summary>Creates BulkCopyHelper based on a type.</summary>
-        public static IBulkCopyHelper CreateBasedOnType(Type theType)
-        {
-            Type generic = typeof(BulkCopyHelper<>);
-            Type constructed = generic.MakeGenericType(theType);
-
-            return Activator.CreateInstance(constructed) as IBulkCopyHelper;
-        }
-    }
+     
 }

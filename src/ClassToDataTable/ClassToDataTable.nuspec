@@ -13,9 +13,6 @@
 		<releaseNotes>Converted to .NET Standard 2.0.</releaseNotes>
 		<copyright>2021</copyright>
 		<tags>DataTable converter</tags>
-		<dependencies>
-			<dependency id="Microsoft.Data.SqlClient" version="2.1.2" />
-		</dependencies>
 	</metadata>
 	<files>
 		<file src="..\..\LICENSE" target="License\LICENSE" />

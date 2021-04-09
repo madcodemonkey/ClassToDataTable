@@ -3,17 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31129.286
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdvExample1", "ClassToDataTable.AdvExample1\AdvExample1.csproj", "{9440032C-AE95-4BAC-9764-D5F07711C815}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleExample1", "ClassToDataTable.SimpleExample1\SimpleExample1.csproj", "{B847DFEE-CBFC-4382-B4AE-23ED4691841B}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Examples", "Examples", "{8522426C-7B40-44AE-90E1-BCDCFB861DEC}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{B61FC893-217E-4142-A624-2856A46A7324}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassToDataTable", "ClassToDataTable\ClassToDataTable.csproj", "{F6211C1F-14AA-401D-B032-F37196076040}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClassToDataTable", "ClassToDataTable\ClassToDataTable.csproj", "{F6211C1F-14AA-401D-B032-F37196076040}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassToDataTable.UnitTests", "ClassToDataTable.UnitTests\ClassToDataTable.UnitTests.csproj", "{AB499D56-D9FD-4362-8B50-2C529DD41BCC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClassToDataTable.UnitTests", "ClassToDataTable.UnitTests\ClassToDataTable.UnitTests.csproj", "{AB499D56-D9FD-4362-8B50-2C529DD41BCC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SqlBulkCopyExample", "ClassToDataTable.SqlBulkCopyExample\SqlBulkCopyExample.csproj", "{03A9C929-A04B-40D3-B6AA-29E5F03A6040}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,13 +23,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9440032C-AE95-4BAC-9764-D5F07711C815}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{9440032C-AE95-4BAC-9764-D5F07711C815}.Debug|Any CPU.Build.0 = Debug|x86
-		{9440032C-AE95-4BAC-9764-D5F07711C815}.Debug|x86.ActiveCfg = Debug|x86
-		{9440032C-AE95-4BAC-9764-D5F07711C815}.Debug|x86.Build.0 = Debug|x86
-		{9440032C-AE95-4BAC-9764-D5F07711C815}.Release|Any CPU.ActiveCfg = Release|x86
-		{9440032C-AE95-4BAC-9764-D5F07711C815}.Release|x86.ActiveCfg = Release|x86
-		{9440032C-AE95-4BAC-9764-D5F07711C815}.Release|x86.Build.0 = Release|x86
 		{B847DFEE-CBFC-4382-B4AE-23ED4691841B}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{B847DFEE-CBFC-4382-B4AE-23ED4691841B}.Debug|Any CPU.Build.0 = Debug|x86
 		{B847DFEE-CBFC-4382-B4AE-23ED4691841B}.Debug|x86.ActiveCfg = Debug|x86
@@ -53,14 +46,22 @@ Global
 		{AB499D56-D9FD-4362-8B50-2C529DD41BCC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{AB499D56-D9FD-4362-8B50-2C529DD41BCC}.Release|x86.ActiveCfg = Release|Any CPU
 		{AB499D56-D9FD-4362-8B50-2C529DD41BCC}.Release|x86.Build.0 = Release|Any CPU
+		{03A9C929-A04B-40D3-B6AA-29E5F03A6040}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03A9C929-A04B-40D3-B6AA-29E5F03A6040}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03A9C929-A04B-40D3-B6AA-29E5F03A6040}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{03A9C929-A04B-40D3-B6AA-29E5F03A6040}.Debug|x86.Build.0 = Debug|Any CPU
+		{03A9C929-A04B-40D3-B6AA-29E5F03A6040}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03A9C929-A04B-40D3-B6AA-29E5F03A6040}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03A9C929-A04B-40D3-B6AA-29E5F03A6040}.Release|x86.ActiveCfg = Release|Any CPU
+		{03A9C929-A04B-40D3-B6AA-29E5F03A6040}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{9440032C-AE95-4BAC-9764-D5F07711C815} = {8522426C-7B40-44AE-90E1-BCDCFB861DEC}
 		{B847DFEE-CBFC-4382-B4AE-23ED4691841B} = {8522426C-7B40-44AE-90E1-BCDCFB861DEC}
 		{AB499D56-D9FD-4362-8B50-2C529DD41BCC} = {B61FC893-217E-4142-A624-2856A46A7324}
+		{03A9C929-A04B-40D3-B6AA-29E5F03A6040} = {8522426C-7B40-44AE-90E1-BCDCFB861DEC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F46CCDF1-E8E7-457B-9938-2E89D66E5565}
