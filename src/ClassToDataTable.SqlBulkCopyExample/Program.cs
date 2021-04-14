@@ -46,6 +46,7 @@ namespace SqlBulkCopyExample
                 BulkCopyTimeout = bulkCopyTimeoutInSeconds
             };
 
+            // Column mappings for SQLBulkCopy
             foreach (DataColumn column in classToDataTableService.Table.Columns)
             {
                 myBulkCopy.ColumnMappings.Add(column.ColumnName, column.ColumnName);
@@ -57,6 +58,7 @@ namespace SqlBulkCopyExample
 
                 if (classToDataTableService.Count % myBulkCopy.BatchSize == 0)
                 {
+                    // WRITE to SERVER! 
                     await myBulkCopy.WriteToServerAsync(classToDataTableService.Table);
                     classToDataTableService.Clear();
                 }
